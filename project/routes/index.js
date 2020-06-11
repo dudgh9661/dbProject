@@ -3,8 +3,8 @@ const router = express.Router();
 const fs = require('fs');
 
 // Main Page
-router.get('/about', (req, res) => {
-    res.render('../views/about.html');
+router.get('/', (req, res) => {
+    res.render('../views/info.html');
 });
 
 router.get('/info', (req, res) => {
