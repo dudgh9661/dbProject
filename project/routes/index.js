@@ -11,6 +11,10 @@ router.get('/info', (req, res) => {
     res.render('../views/info.html');
 });
 
+router.get('/charge', (req, res) => {
+    res.render('../views/charge.html');
+});
+
 router.get('/deposit', (req, res) => {
     res.render('../views/deposit.html');
 });
@@ -24,7 +28,7 @@ router.get('/storeAdd', (req, res) => {
 });
 
 router.get('/store', (req, res) => {
-    res.render('../views/store.html');
+    res.render('../views/store.html', {store : {name : "떡볶이", region : "수원", code : "13", number : "0505-3232-2323"}});
 });
 
 router.get('/customerAdd', (req, res) => {
