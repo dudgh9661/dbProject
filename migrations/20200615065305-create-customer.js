@@ -13,15 +13,15 @@ module.exports = {
             customerCode: {
                 allowNull: false,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER(20)
             },
             usedMoney: {
                 allowNull: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER(20)
             },
             chargedMoney: {
                 allowNull: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER(20)
             },
         });
     },
