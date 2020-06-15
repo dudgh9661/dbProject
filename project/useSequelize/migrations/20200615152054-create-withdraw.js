@@ -1,21 +1,13 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('payment', {
+        return queryInterface.createTable('withdraw', {
             regionCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
                 references: {
                     model: 'region',
                     key: 'regionCode'
-                }
-            },
-            customerCode: {
-                allowNull: false,
-                type: Sequelize.INTEGER(20),
-                references: {
-                    model: 'customer',
-                    key: 'customerCode'
                 }
             },
             storeCode: {
@@ -26,13 +18,12 @@ module.exports = {
                     key: 'storeCode'
                 }
             },
-            paymentCode: {
+            withrawCode: {
                 allowNull: false,
                 primaryKey: true,
                 type: Sequelize.INTEGER(20)
-
             },
-            price: {
+            withrawMoney: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20)
             },
@@ -41,8 +32,8 @@ module.exports = {
                 type: Sequelize.DATE
             },
         });
-    },
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('payments');
+        down: (queryInterface, Sequelize) => {
+            return queryInterface.dropTable('withdraw');
+        }
     }
 };

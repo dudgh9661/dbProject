@@ -9,7 +9,7 @@ module.exports = {
             },
             regionName: {
                 allowNull: false,
-                type: Sequelize.STRING(20)
+                type: Sequelize.STRING(40)
             },
             monthLimit: {
                 allowNull: false,

@@ -1,15 +1,14 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const payment = sequelize.define('payment', {
+  const withdraw = sequelize.define('withdraw', {
     regionCode: DataTypes.INTEGER,
-    customerCode: DataTypes.INTEGER,
     storeCode: DataTypes.INTEGER,
-    paymentCode: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
+    withrawCode: DataTypes.INTEGER,
+    withrawMoney: DataTypes.INTEGER,
     date: DataTypes.DATE
   }, {});
-  payment.associate = function(models) {
+  withdraw.associate = function(models) {
     // associations can be defined here
   };
-  return payment;
+  return withdraw;
 };

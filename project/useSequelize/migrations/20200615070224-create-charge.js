@@ -1,22 +1,16 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('charges', {
+        return queryInterface.createTable('charge', {
             regionCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
-                references: {
-                    model: 'region',
-                    key: 'regionCode'
-                }
+
             },
             customerCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
-                references: {
-                    model: 'customer',
-                    key: 'customerCode'
-                }
+
             },
             priceCode: {
                 allowNull: false,
@@ -35,6 +29,6 @@ module.exports = {
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('charges');
+        return queryInterface.dropTable('charge');
     }
 };

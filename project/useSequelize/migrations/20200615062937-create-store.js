@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('customer', {
+        return queryInterface.createTable('store', {
             regionCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
@@ -10,22 +10,26 @@ module.exports = {
                     key: 'regionCode'
                 }
             },
-            customerCode: {
+            storeCode: {
                 allowNull: false,
                 primaryKey: true,
                 type: Sequelize.INTEGER(20)
             },
-            usedMoney: {
-                allowNull: true,
+            storeName: {
+                allowNull: false,
+                type: Sequelize.STRING(50)
+            },
+            storePhone: {
+                allowNull: false,
                 type: Sequelize.INTEGER(20)
             },
-            chargedMoney: {
-                allowNull: true,
+            revenue: {
+                allowNull: false,
                 type: Sequelize.INTEGER(20)
-            },
+            }
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('customers');
+        return queryInterface.dropTable('store');
     }
 };

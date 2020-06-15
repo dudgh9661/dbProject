@@ -5,26 +5,16 @@ module.exports = {
             regionCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
-                references: {
-                    model: 'region',
-                    key: 'regionCode'
-                }
             },
             customerCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
-                references: {
-                    model: 'customer',
-                    key: 'customerCode'
-                }
+
             },
             storeCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
-                references: {
-                    model: 'store',
-                    key: 'storeCode'
-                }
+
             },
             paymentCode: {
                 allowNull: false,
