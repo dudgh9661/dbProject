@@ -10,7 +10,7 @@ if (!process.env.MYSQL_HOST) {
 module.exports = {
     host: "101.101.210.110",
     username: "root",
-    password: "wjdxotjs",
+    password: "1234",
     database: "db",
     dialect: 'mysql'
 }
