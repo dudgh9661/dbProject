@@ -1,0 +1,9 @@
+{
+    "development":{
+            "host": "101.101.210.110",
+            "username": "root",
+            "password": "wjdxotjs",
+            "database": "db",
+            "dialect": "mysql"         
+    }
+}
