@@ -13,21 +13,20 @@ var connection = mysql.createConnection({
 });
 //지역별 정보
 app.post('/info', function(req, res){
-    var regionName = req.body.regionName;
-    var monthLimit = req.body.monthLimit;
-    var discountRate = req.body.discountRate;
 
     connection.query('SELECT * FROM region', function(err, rows, fields){
         if(err) {
             console.log(err);
             res.send(err);
         } else {
-            for(var i=0; i<rows.length; i++) {
-                console.log('regionName : ' + rows[i].regionName + 'monthLimit : ' + rows[i].monthLimit + 'discountRate : ' + rows[i].discountRate);
-                res.send('regionName : ' + rows[i].regionName + 'monthLimit : ' + rows[i].monthLimit + 'discountRate : ' + rows[i].discountRate);
-            }
+            console.log(rows);
+            res.json(rows);
+            //for(var i=0; i<rows.length; i++) {
+            //    console.log('regionName : ' + rows[i].regionName + ' monthLimit : ' + rows[i].monthLimit + ' discountRate : ' + rows[i].discountRate);
+            //    res.json('regionName : ' + rows[i].regionName + ' monthLimit : ' + rows[i].monthLimit + ' discountRate : ' + rows[i].discountRate);
+            //}
         }
-    })
+    });
 });
 
 //고객 등록(지역과 고객명, 계좌번호를 입력)
@@ -46,7 +45,7 @@ app.post('/customerAdd', function(req, res){
             console.log('Success');
             res.send('Success');
         }
-    })
+    });
 });
 //가맹점 등록(지역과 가맹점명, 전화번호를 입력)
 app.post('/storeAdd', function(req, res){
@@ -75,7 +74,7 @@ app.post('/storeAdd', function(req, res){
             console.log('Success');
             res.send('Success');
         }
-    })
+    });
 });
 //충전(고객코드와 충전금액을 입력)
 app.post('/deposit', function(req, res){
@@ -105,9 +104,29 @@ app.post('/deposit', function(req, res){
             console.log('Success');
             res.send('Success');
         }
-    })
+    });
 });
 //출금(가맹점코드와 출금금액을 입력)
 app.post('/withdraw', function(req, res){
+    var regionCode = req.body.regionCode;
+    var storeCode = req.body.storeCode;
+    var withdrawCode = req.body.withdrawCode;
+    var withdrawMoney = req.body.withdrawMoney;
+    var date = new Date();
 
+    var sql = 'INSERT INTO withdraw(regionCode, storeCode, withdrawCode, withdrawMoney, date) VALUES (?, ?, ?, ?, ?)';
+    var param = [regionCode, storeCode, withdrawCode, withdrawMoney, date];
+    connection.query(sql, param, function(err,rows, fields){
+        if(err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            console.log('Success');
+            res.send('Success');
+        }
+    });
+});
+
+app.listen(3001, function () {
+    console.log(`Server Start!...`);
 });
