@@ -1,14 +1,41 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+var bodyParser = require('body-parser');
+var mysql = require('mysql');
+
+router.use(bodyParser.json({ type: 'application/json' }));
+
+var connection = mysql.createConnection({
+    host        : '101.101.210.110',
+    user        : 'root',
+    password    : '1234',
+    database    : 'db'
+});
+
 
 // Main Page
 router.get('/', (req, res) => {
-    res.render('../views/info.html');
+    connection.query('SELECT * FROM region', function(err, rows, fields){
+        if(err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            res.render('../views/info.ejs',{rows : rows});
+        }
+    })
 });
 
 router.get('/info', (req, res) => {
-    res.render('../views/info.html');
+    connection.query('SELECT * FROM region', function(err, rows, fields){
+        if(err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            console.log(rows);
+            res.render('../views/info.ejs',{rows : rows});
+        }
+    })
 });
 
 router.get('/charge', (req, res) => {
