@@ -13,10 +13,6 @@ var connection = mysql.createConnection({
     database    : 'db'
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 03348d36e67231a65ac2d100ca46a32eaf5cf582
 
 // Main Page
 router.get('/', (req, res) => {

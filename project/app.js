@@ -5,12 +5,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const ejs = require('ejs');
 const logger = require('morgan');
-<<<<<<< HEAD
-// const sequelize = require('./useSequelize/models/index').sequelize;
-=======
-//const sequelize = require('./models/index').sequelize;
->>>>>>> 03348d36e67231a65ac2d100ca46a32eaf5cf582
-
 // Passport Config
 app.use(logger('dev'));
 // Connect to MongoDB
