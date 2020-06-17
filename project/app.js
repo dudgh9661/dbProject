@@ -5,7 +5,11 @@ const bodyParser = require('body-parser');
 const app = express();
 const ejs = require('ejs');
 const logger = require('morgan');
+<<<<<<< HEAD
 // const sequelize = require('./useSequelize/models/index').sequelize;
+=======
+//const sequelize = require('./models/index').sequelize;
+>>>>>>> 03348d36e67231a65ac2d100ca46a32eaf5cf582
 
 // Passport Config
 app.use(logger('dev'));
@@ -65,10 +69,5 @@ app.use('/', require('./routes/index.js'));
 
 const PORT = process.env.PORT || 5000;
 
-// sequelize.sync().then(function () {
-//   app.server.listen(process.env.PORT || config.port, () => {
-//     console.log(`Started on port ${app.server.address().port}`);
-//   });
-// });
 app.listen(PORT, console.log(`Server running on port ${PORT}`));
 module.exports = app;
