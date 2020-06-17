@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
     database    : 'db'
 });
 //지역별 정보
-app.post('/info', function(req, res){
+app.get('/info', function(req, res){
     var regionName = req.body.regionName;
     var monthLimit = req.body.monthLimit;
     var discountRate = req.body.discountRate;
@@ -22,10 +22,11 @@ app.post('/info', function(req, res){
             console.log(err);
             res.send(err);
         } else {
-            for(var i=0; i<rows.length; i++) {
-                console.log('regionName : ' + rows[i].regionName + 'monthLimit : ' + rows[i].monthLimit + 'discountRate : ' + rows[i].discountRate);
-                res.send('regionName : ' + rows[i].regionName + 'monthLimit : ' + rows[i].monthLimit + 'discountRate : ' + rows[i].discountRate);
-            }
+            res.render('./views/info.html',{regionName : rows.regionName});
+            // for(var i=0; i<rows.length; i++) {
+            //     console.log('regionName : ' + rows[i].regionName + 'monthLimit : ' + rows[i].monthLimit + 'discountRate : ' + rows[i].discountRate);
+            //     res.send('regionName : ' + rows[i].regionName + 'monthLimit : ' + rows[i].monthLimit + 'discountRate : ' + rows[i].discountRate);
+            // }
         }
     })
 });
