@@ -5,18 +5,15 @@ module.exports = {
             regionCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
-
             },
             customerCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
-
             },
             priceCode: {
                 allowNull: false,
                 type: Sequelize.INTEGER(20),
                 primaryKey: true
-
             },
             price: {
                 allowNUll: false,

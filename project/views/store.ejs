@@ -64,7 +64,7 @@
                     <a class="nav-link js-scroll-trigger" href="/store">가맹점 보기</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="/deposit">충전</a>
+                    <a class="nav-link js-scroll-trigger" href="/charge">충전</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="/withdraw">출금</a>
@@ -77,66 +77,47 @@
             <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="about">
                 <div class='w-100'>
                     <h2 class='mb-0' >가맹점 보기</h2>
-                    <div class='resume-item d-flex flex-column flex-md-row justify-content-between mb-0'>
-                        <div class='resume-content'>
-                            <br><br>
-                            <table style="table-layout: fixed">
-                                <tr style="text-align: center;">
-                                    <td style="display: inline-flex;">
-                                        <!-- <div class='tendency'>
-                                            <button type='button' class='btn' id="play" style= 'color:white; background-color: #FFB6B9;'>play</button>
-                                        </div>
-                                        <div class='tendency' style="">
-                                            <button type='button' class='btn' id="culture"  style= 'color:white; background-color: #FAE3D9;'>culture</button>
-                                        </div>
-                                        <div class='tendency' style="">
-                                            <button type='button' class='btn' id="study" style= 'color:white; background-color: #BBDED6;'>study</button>
-                                        </div> -->
-                                        &nbsp;&nbsp;&nbsp;
-                                        <div class="form-group">
-                                            
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- <%
-                                if(store=="") {%> -->
-                                <tr>
+                    <br>
+                    <br>
+                    <table style="table-layout: fixed">
+                            <%for(i in rows){%>
+                                <tr style="margin-bottom: 10px; border: 1rem;">
                                     <td>
                                         <div class="column" >
                                             <div class='cardList'>
-                                                <h3>There is no registered store.</h3>
+                                                <div class='firstinfo'>
+                                                    <div class='storeinfo' style="text-align: center;">
+                                                        <h3 style="color: black;"><%=rows[i].storeName%></h3>
+                                                        <h4 style="color: dimgrey;">지역 코드 <%=rows[i].regionCode%> &nbsp;&nbsp; 가맹점 코드 <%=rows[i].storeCode%>&nbsp;&nbsp; 전화번호 <%=rows[i].storePhone%></h4>
+                                                        <button type='button' class='btn' id="study" style= 'color:white; background-color: #BBDED6;' onclick="charge('<%=rows[i].storeCode%>')">결제</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- <%}else{
-                                    for(i in store){%> -->
-                                        <tr>
-                                            <td>
-                                                <div class="column" >
-                                                    <div class='cardList'>
-                                                        <div class='firstinfo'>
-                                                            <div class='storeinfo'>
-                                                                <h1><%=store[i].name%></h1>
-                                                                <h3><%=store[i].region%>, <%=store[i].code%>,  <%=store[i].number%></h3>
-                                                                <button type='button' class='btn' id="study" style= 'color:white; background-color: #BBDED6;' onclick="charge('<%=store[i].code%>')">결제</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <!-- <%}
-                                }%> -->
-                            </table>
-                        </div>
-                    </div>
+                            <%}%>
+                    </table>
                 </div>
             </section>
         </div>
     </div>
 </body>
 <script>
-
+    function charge(storeCode) {
+        $.ajax({
+            type:"POST",
+            url: "/storeCodeSet" ,
+            data: {
+                storeCode : storeCode
+            }
+        }).done(function(result) {
+            if (result) {
+                location.href='/payment';
+            } else {
+                location.reload();
+            }
+        });
+    }
 </script>
 </html>

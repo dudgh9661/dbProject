@@ -64,7 +64,7 @@
                     <a class="nav-link js-scroll-trigger" href="/store">가맹점 보기</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="/deposit">충전</a>
+                    <a class="nav-link js-scroll-trigger" href="/charge">충전</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="/withdraw">출금</a>
@@ -77,14 +77,22 @@
         <div id="con" style="margin-left: 40px;">
             <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="about">
                 <div class='w-100'>
-                    <h2 class='mb-0' >충전</h2>
+                    <h2 class='mb-0'>결제하기</h2>
                     <div class='resume-item d-flex flex-column flex-md-row justify-content-between mb-0'>
                         <div class='resume-content'>
                             <br><br>
-                            <form action='/clustering' method='post' class='form-inline' name="myForm">
+                            <form action='/payment' method='post' class='form-inline' name="myForm">
                                 <label class='field a-field a-field_a1'>
                                     <div class="group">
-                                        <input type="text" id="input1" name="input1" required>
+                                        <input type="text" id="storeCode" value="<%=storeCode%>" name="storeCode" disabled>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                    </div>
+                                </label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label class='field a-field a-field_a1'>
+                                    <div class="group">
+                                        <input type="text" id="customerCode" name="customerCode" required>
                                         <span class="highlight"></span>
                                         <span class="bar"></span>
                                         <label id="inputLabel">고객코드</label>
@@ -93,14 +101,14 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <label class='field a-field a-field_a1'>
                                         <div class="group">
-                                            <input type="text" id="input2" name="input2" required>
+                                            <input type="text" id="price" name="price" required>
                                             <span class="highlight"></span>
                                             <span class="bar"></span>
-                                            <label id="inputLabel">충전금액</label>
+                                            <label id="inputLabel">금액</label>
                                         </div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <div style="margin-bottom: 30px;">
-                                        <button type="submit" id="submit" class="btn btn-outline-dark">충전</button>
+                                        <button type="submit" id="submit" class="btn btn-outline-dark">결제</button>
                                     </div>
                                 </label>
                             </form>
