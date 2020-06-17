@@ -83,17 +83,19 @@
                             <table id="result_tb" style="width: 500px;">
                                 <thead id="info">
                                     <tr>
-                                        <th>시군별</th>
-                                        <th>월한도</th>
-                                        <th>년한도</th>
-                                        <th>할인율</th>
+                                        <th>지역코드</th>
+                                        <th>지역명</th>
+                                        <th>월한도(만원)</th>
+                                        <th>할인율(%)</th>
                                     </tr>
+                                    <%for(i in rows){%>
                                     <tr>
-                                        <td>수원</td>
-                                        <td>50</td>
-                                        <td>400</td>
-                                        <td>6%</td>
+                                        <td><%=rows[i].regionCode%></td>
+                                        <td><%=rows[i].regionName%></td>
+                                        <td><%=rows[i].monthLimit%></td>
+                                        <td><%=rows[i].discountRate%></td>
                                     </tr>
+                                    <%}%>
                                 </thead>
                             </table>
                         </div>
@@ -103,17 +105,4 @@
         </div>
     </div>
 </body>
-<script>
-    // if (info != "") {
-    //     var outputArray = info.split(',')
-    //     var str = "<tr><th>시군별</th><th>월한도</th><th>년한도</th><th>할인율</th></tr>"
-    //     let num = 0;
-    //     for (let i in outputArray) {
-    //         num++;
-    //         str = str + "<td class='normalTd'>" + num + ". " + outputArray[i] + "</td>"
-    //     }
-    //     $('#info').html(str)
-    //     $('#input').val(input)
-    // }
-</script>
 </html>
