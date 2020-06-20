@@ -81,57 +81,49 @@
                     <div class='resume-item d-flex flex-column flex-md-row justify-content-between mb-0'>
                         <div class='resume-content'>
                             <br><br>
-                            <form action='/customerAdd/action' method='post' class='form-inline' name="myForm">
-                                <label class='field a-field a-field_a1'>
-                                    <select class="form-control" id="regionCode" style="margin-top: -30px; background-color: white; color: black;" name="nationality">
-                                        <option value="">지역 선택</option>
-                                        <option value="1">가평</option>
-                                        <option value="2">고양</option>
-                                        <option value="3">과천</option>
-                                        <option value="4">광명</option>
-                                        <option value="5">광주</option>
-                                        <option value="6">구리</option>
-                                        <option value="7">군포</option>
-                                        <option value="8">김포</option>
-                                        <option value="9">남양주</option>
-                                        <option value="10">동두천</option>
-                                        <option value="11">부천</option>
-                                        <option value="12">성남</option>
-                                        <option value="13">수원</option>
-                                        <option value="14">시흥</option>
-                                        <option value="15">안산</option>
-                                        <option value="16">안성</option>
-                                        <option value="17">안양</option>
-                                        <option value="18">양주</option>
-                                        <option value="19">양평</option>
-                                        <option value="20">여주</option>
-                                        <option value="21">연천</option>
-                                        <option value="22">오산</option>
-                                        <option value="23">용인</option>
-                                        <option value="24">의왕</option>
-                                        <option value="25">의정부</option>
-                                        <option value="26">이천</option>
-                                        <option value="27">파주</option>
-                                        <option value="28">평택</option>
-                                        <option value="29">포천</option>
-                                        <option value="30">하남</option>
-                                        <option value="31">화성</option>
-                                    </select>
-                                </label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <label class='field a-field a-field_a1'>
-                                    <div class="group">
-                                        <input type="text" id="customerName" name="customerCode" required>
-                                        <span class="highlight"></span>
-                                        <span class="bar"></span>
-                                        <label id="inputLabel">고객명</label>
-                                    </div>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div style="margin-bottom: 30px;">
-                                        <button type="submit" id="submit" class="btn btn-outline-dark">등록</button>
-                                    </div>
-                                </label>
-                            </form>
+                            <select class="form-control" id="regionCode" style="margin-top: -30px; background-color: white; color: black;" name="regionCode">
+                                <option value="">지역 선택</option>
+                                <option value="1">가평</option>
+                                <option value="2">고양</option>
+                                <option value="3">과천</option>
+                                <option value="4">광명</option>
+                                <option value="5">광주</option>
+                                <option value="6">구리</option>
+                                <option value="7">군포</option>
+                                <option value="8">김포</option>
+                                <option value="9">남양주</option>
+                                <option value="10">동두천</option>
+                                <option value="11">부천</option>
+                                <option value="12">성남</option>
+                                <option value="13">수원</option>
+                                <option value="14">시흥</option>
+                                <option value="15">안산</option>
+                                <option value="16">안성</option>
+                                <option value="17">안양</option>
+                                <option value="18">양주</option>
+                                <option value="19">양평</option>
+                                <option value="20">여주</option>
+                                <option value="21">연천</option>
+                                <option value="22">오산</option>
+                                <option value="23">용인</option>
+                                <option value="24">의왕</option>
+                                <option value="25">의정부</option>
+                                <option value="26">이천</option>
+                                <option value="27">파주</option>
+                                <option value="28">평택</option>
+                                <option value="29">포천</option>
+                                <option value="30">하남</option>
+                                <option value="31">화성</option>
+                            </select>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" id="customerName" name="customerName" required>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label id="inputLabel">고객명</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;                                    
+                            <div style="margin-bottom: 30px;">
+                                <button onclick="action()" id="submit" class="btn btn-outline-dark">등록</button>
+                            </div>    
                         </div>
                     </div>
                 </div>
@@ -141,5 +133,28 @@
     </div>
 </body>
 <script>
+    let param = "<%=code%>";
+    param = param*1;
+    if(param>0){
+        alert("고객등록이 완료되었습니다.\n 고객코드 = "+param);
+    }
+        function action() {
+        $.ajax({
+            type:"POST",
+            url: "/customerAdd/action" ,
+            data: {
+                regionCode : $('#regionCode').val(),
+                customerName : $('#customerName').val()
+            }
+        }).done(function(result) {
+            if (result) {
+                location.href='/customerAdd';
+            } else {
+                alert("다시 시도해주세요.");
+                location.reload();
+            }
+        });
+    }
+
 </script>
 </html>

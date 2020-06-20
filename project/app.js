@@ -6,7 +6,7 @@ const app = express();
 const ejs = require('ejs');
 const logger = require('morgan');
 // Passport Config
-app.use(logger('dev'));
+// app.use(logger('dev'));
 // Connect to MongoDB
 // mongoose.Promise = global.Promise;
 
