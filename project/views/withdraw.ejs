@@ -128,15 +128,6 @@
                                 </label>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <label class='field a-field a-field_a1'>
-                                    <div class="group">
-                                        <input type="text" id="withdrawCode" name="withdrawCode" required>
-                                        <span class="highlight"></span>
-                                        <span class="bar"></span>
-                                        <label id="inputLabel">출금코드</label>
-                                    </div>
-                                </label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <label class='field a-field a-field_a1'>
                                         <div class="group">
                                             <input type="text" id="withdrawMoney" name="withdrawMoney" required>
                                             <span class="highlight"></span>
@@ -153,27 +144,32 @@
                         </div>
                     </div>
                 </div>
-                <br><br>
             </section>
         </div>
     </div>
 </body>
 <script>
+    let param = "<%=code%>";
+    param = param*1;
+    if(param>0){
+        alert("출금이 완료되었습니다.\n 출금코드 = "+param);
+    }
     function action() {
         $.ajax({
             type:"POST",
             url: "/withdraw/action" ,
             data: {
-                storeCode : storeCode
+                regionCode : $('#regionCode').val(),
+                storeCode : $('#storeCode').val(),
+                withdrawMoney : $('#withdrawMoney').val()
             }
         }).done(function(result) {
             if (result) {
-                location.href='/payment';
+                location.href='/withdraw';
             } else {
                 location.reload();
             }
         });
     }
-
 </script>
 </html>

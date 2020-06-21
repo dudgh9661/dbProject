@@ -48,8 +48,9 @@ router.post('/storeCodeSet', (req, res) => {
 });
 
 router.get('/payment', (req, res) => {
-    console.log(this_storeCode)
-    res.render('../views/payment.ejs', {storeCode : this_storeCode});
+    console.log(this_storeCode+" "+code)
+    res.render('../views/payment.ejs', {storeCode : this_storeCode , code : code});
+    code =0;
 });
 
 
@@ -136,68 +137,53 @@ router.post('/storeAdd/action', function(req, res) {
 router.post('/charge/action', function(req, res) {
     var regionCode = req.body.regionCode;
     var customerCode = req.body.customerCode;
-    var chargeCode = 10;
+    var chargeCode = 0;
     var price = req.body.price;
     var date = new Date();
     console.log(req.body);
+
     connection.query('SELECT * from charge', function(err, rows, fields) {
         if (err) {
             console.log(err);
-            res.send(err);
         } else {
-            console.log('max is ' + rows.length);
-            chargeCode = rows.length + chargeCode;
+            chargeCode = rows.length + 1;
             console.log(chargeCode);
             code = chargeCode;
             var sql = 'INSERT INTO charge (regionCode, customerCode, chargeCode, price, date) VALUES (?, ?, ?, ?, ?)';
             var param = [regionCode, customerCode, chargeCode, price, date];
             connection.query(sql, param, function(err, rows, fields) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('Success');
-                        //사용자에게 돈넣음
-    //1.백에서 지역별 discountRate 가져와야함 
-    sql = 'select discountRate from region where regionCode = ?';
-    param = [regionCode];
+                    //사용자에게 돈넣음
+                //1.백에서 지역별 discountRate 가져와야함 
+                sql = 'select discountRate from region where regionCode = ?';
+                param = [regionCode];
 
-    connection.query(sql, param, function(err, rows, fields) {
-        if (err) {
-            console.log(err);
-            res.send(err);
-        } else {
-            let {discountRate} = rows[0];
-            console.log('discountRate'+ discountRate);
-            console.log('Success');
-            //2.currentMoney 먼저 불러오고 나서 합쳐줌.
-            sql = 'select chargedMoney from customer where customerCode=?'
-            param = [customerCode];
+                connection.query(sql, param, function(err, rows, fields) {
+                    let {discountRate} = rows[0];
+                    console.log('discountRate'+ discountRate);
+                    //2.currentMoney 먼저 불러오고 나서 합쳐줌.
+                    sql = 'select chargedMoney from customer where customerCode=?'
+                    param = [customerCode];
 
-            connection.query(sql, param, function(err, rows, fields) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    let {chargedMoney} = rows[0];
-                    console.log('Success');
-                    chargedMoney = chargedMoney + price + (price * discountRate * 0.01);
-                    //3. update
-                    console.log(chargedMoney+'chargedMoney');
-                    sql = 'UPDATE customer set chargedMoney=? where customerCode=?';
-                    param = [chargedMoney, customerCode];
                     connection.query(sql, param, function(err, rows, fields) {
-                        if (err) {
-                            console.log(err);
-                            res.send(err);
-                        } else {
-                            console.log('Success');
-                            res.send('Success');
-                        }
+                        let {chargedMoney} = rows[0];
+                        chargedMoney *= 1;
+                        price *= 1;
+                        discountRate *= 1;
+                        chargedMoney = chargedMoney + price + (price * discountRate * 0.01);
+                        //3. update
+                        console.log(chargedMoney+'chargedMoney');
+                        sql = 'UPDATE customer set chargedMoney=? where customerCode=?';
+                        param = [chargedMoney, customerCode];
+                        connection.query(sql, param, function(err, rows, fields) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log('suc');
+                                res.send(true);
+                            }
+                        });
                     });
-                }
-            });
-        }
-    });
-                }
+                });
             });
         }
     });
@@ -205,108 +191,124 @@ router.post('/charge/action', function(req, res) {
 
 //출금(가맹점코드와 출금금액을 입력)
 router.post('/withdraw/action', function(req, res) {
+    console.log(req.body);
     var regionCode = req.body.regionCode;
     var storeCode = req.body.storeCode;
-    var withdrawCode = req.body.withdrawCode;
     var withdrawMoney = req.body.withdrawMoney;
+    var withdrawCode = 0;
     var date = new Date();
 
-    var sql = 'INSERT INTO withdraw(regionCode, storeCode, withdrawCode, withdrawMoney, date) VALUES (?, ?, ?, ?, ?)';
-    var param = [regionCode, storeCode, withdrawCode, withdrawMoney, date];
-    connection.query(sql, param, function(err, rows, fields) {
+    connection.query('SELECT * from withdraw', function(err, rows, fields) {
         if (err) {
             console.log(err);
-            res.send(err);
         } else {
-            console.log('Success');
-            res.send('Success');
-        }
-    });
+            withdrawCode = rows.length + withdrawCode;
+            console.log(withdrawCode);
+            code = withdrawCode;
+            var sql = 'INSERT INTO withdraw(regionCode, storeCode, withdrawCode, withdrawMoney, date) VALUES (?, ?, ?, ?, ?)';
+            var param = [regionCode, storeCode, withdrawCode, withdrawMoney, date];
+            connection.query(sql, param, function(err, rows, fields) {
 
-    //store에서 돈 뺌
-    //1.백에서 currentMoney 먼저 출금 금액 빼줌
-    sql = 'select chargedMoney from store where storeCode=?';
-    param = [storeCode];
-    var currentMoney = 0;
+                //store에서 돈 뺌
+            //1.백에서 currentMoney 먼저 출금 금액 빼줌
+            sql = 'select revenue from store where storeCode=?';
+            param = [storeCode];
+            connection.query(sql, param, function(err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let {revenue} = rows[0];
+                    console.log(revenue);
+                    revenue = revenue - withdrawMoney;
 
-    connection.query(sql, param, function(err, rows, fields) {
-        if (err) {
-            console.log(err);
-            res.send(err);
-        } else {
-            currentMoney = rows[0];
-            console.log('Success');
-            // res.send('Success');
-        }
-    });
-    currentMoney = currentMoney - withdrawMoney;
-
-    //2. UPDATE
-    sql = 'UPDATE store set currentMoney=? where storeCode=?'
-    param = [currentMoney, storeCode];
-
-    connection.query(sql, param, function(err, rows, fields) {
-        if (err) {
-            console.log(err);
-            res.send(err);
-        } else {
-            console.log('Success');
-            res.send('Success');
-        }
-    });
-
-
+                    //2. UPDATE
+                    sql = 'UPDATE store set revenue=? where storeCode=?'
+                    param = [revenue, storeCode];
+                    console.log(revenue);
+                    connection.query(sql, param, function(err, rows, fields) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            res.send(true);
+                        }
+                    });
+                }
+            });
+            });
+    }});
 });
 
 //결제 
-router.post('/payment/action', (res, req) => {
+router.post('/payment/action', function(req, res) {
+    console.log(req.body);
     var regionCode = req.body.regionCode;
     var customerCode = req.body.customerCode;
-    var storeCode = this_storeCode;
-    var paymentCode = req.body.paymentCode;
+    var storeCode = req.body.storeCode;
+    var paymentCode = 0;
     var price = req.body.price;
     var date = new Date();
-
-    var sql = 'INSERT INTO payment (regionCode, customerCode, storeCode, price, date) VALUES (regionCode, customerCode, storeCode, price, date)';
-    var param = [regionCode, customerCode, storeCode, price, date];
-    connection.query(sql, param, function(err, rows, fields) {
-        if (err) {
-            console.log(err);
-            res.send(err);
-        } else {
-            console.log('Success');
-            // res.send('Success');
-        }
+    this_storeCode = storeCode;
+    connection.query('SELECT * from payment', function(err, rows, fields) {
+        paymentCode = rows.length + 10000;
+        console.log(paymentCode);
+        code = paymentCode;
+        var sql = 'INSERT INTO payment (regionCode, customerCode, storeCode, paymentCode, price, date) VALUES (?, ?, ?, ?, ?, ?)';
+        var param = [regionCode, customerCode, storeCode, paymentCode, price, date];
+        connection.query(sql, param, function(err, rows, fields) {
+            if (err) {
+                console.log(err);
+            } else {
+    
+            }
+        });
     });
 
     // 1. 사용자에게서 돈 빼감(백에서 currentMoney 불러와서 먼저 결제금액 빼주고 UPDATE )
-    sql = 'select chargedMoney from customer where customerCode=?';
+    sql = 'select chargedMoney, usedMoney from customer where customerCode=?';
     param = [customerCode];
-    var chargedMoney = 0;
     connection.query(sql, param, function(err, rows, fields) {
         if (err) {
             console.log(err);
-            res.send(err);
         } else {
-            console.log('Success');
-            chargedMoney = rows[0];
-            // res.send('Success');
+            console.log(rows[0]);
+            let {chargedMoney, usedMoney} = rows[0];
+            chargedMoney *= 1;
+            usedMoney *= 1;
+            price *= 1;
+            let currentMoney = chargedMoney - usedMoney;
+            if(currentMoney < price){
+                res.send(false);
+            }
+            usedMoney += price;
+            sql = 'UPDATE customer set usedMoney=? where customerCode=?';
+            param = [usedMoney, customerCode];
+            connection.query(sql, param, function(err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    sql = 'select revenue from store where storeCode=?';
+                    param = [storeCode];
+                    connection.query(sql, param, function(err, rows, fields) {
+                        console.log(rows);
+                        let {revenue} =rows[0];
+                        console.log(revenue);
+                        revenue *= 1;
+                        revenue += price;
+                        sql = 'UPDATE store set revenue=? where storeCode=?';
+                        param = [revenue, storeCode];
+                        connection.query(sql, param, function(err, rows, fields) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log('suc');
+                                res.send(true);
+                            }
+                        }); 
+                    });
+                }
+            });
         }
     });
-
-    sql = 'UPDATE store set chargedMoney=? where storeCode=?';
-    var chargedMoney = chargedMoney - price;
-    param = [chargedMoney, storeCode];
-    connection.query(sql, param, function(err, rows, fields) {
-        if (err) {
-            console.log(err);
-            res.send(err);
-        } else {
-            console.log('Success');
-            res.send('Success');
-        }
-    });
-
 });
 
 module.exports = router;
