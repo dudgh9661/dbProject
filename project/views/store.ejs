@@ -89,7 +89,7 @@
                                                     <div class='storeinfo' style="text-align: center;">
                                                         <h3 style="color: black;"><%=rows[i].storeName%></h3>
                                                         <h4 style="color: dimgrey;">지역 코드 <%=rows[i].regionCode%> &nbsp;&nbsp; 가맹점 코드 <%=rows[i].storeCode%>&nbsp;&nbsp; 전화번호 <%=rows[i].storePhone%></h4>
-                                                        <button type='button' class='btn' id="study" style= 'color:white; background-color: #BBDED6;' onclick="charge('<%=rows[i].storeCode%>')">결제</button>
+                                                        <button type='button' class='btn' id="study" style= 'color:white; background-color: #BBDED6;' onclick="charge('<%=rows[i].storeCode%>','<%=rows[i].regionCode%>')">결제</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,12 +104,13 @@
     </div>
 </body>
 <script>
-    function charge(storeCode) {
+    function charge(storeCode, regionCode) {
         $.ajax({
             type:"POST",
             url: "/storeCodeSet" ,
             data: {
-                storeCode : storeCode
+                storeCode : storeCode,
+                regionCode : regionCode
             }
         }).done(function(result) {
             if (result) {
