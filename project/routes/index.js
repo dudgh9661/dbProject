@@ -280,35 +280,36 @@ router.post('/payment/action', function(req, res) {
             let currentMoney = chargedMoney - usedMoney;
             if(currentMoney < price){
                 res.send(false);
-            }
-            usedMoney += price;
-            sql = 'UPDATE customer set usedMoney=? where customerCode=?';
-            param = [usedMoney, customerCode];
-            connection.query(sql, param, function(err, rows, fields) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    sql = 'select revenue from store where storeCode=?';
-                    param = [storeCode];
-                    connection.query(sql, param, function(err, rows, fields) {
-                        console.log(rows);
-                        let {revenue} =rows[0];
-                        console.log(revenue);
-                        revenue *= 1;
-                        revenue += price;
-                        sql = 'UPDATE store set revenue=? where storeCode=?';
-                        param = [revenue, storeCode];
+            }else{
+                usedMoney += price;
+                sql = 'UPDATE customer set usedMoney=? where customerCode=?';
+                param = [usedMoney, customerCode];
+                connection.query(sql, param, function(err, rows, fields) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        sql = 'select revenue from store where storeCode=?';
+                        param = [storeCode];
                         connection.query(sql, param, function(err, rows, fields) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log('suc');
-                                res.send(true);
-                            }
-                        }); 
-                    });
-                }
-            });
+                            console.log(rows);
+                            let {revenue} =rows[0];
+                            console.log(revenue);
+                            revenue *= 1;
+                            revenue += price;
+                            sql = 'UPDATE store set revenue=? where storeCode=?';
+                            param = [revenue, storeCode];
+                            connection.query(sql, param, function(err, rows, fields) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log('suc');
+                                    res.send(true);
+                                }
+                            }); 
+                        });
+                    }
+                });
+            }
         }
     });
 });
