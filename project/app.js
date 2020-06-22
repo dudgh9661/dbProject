@@ -74,6 +74,8 @@ var connection = mysql.createConnection({
 //지역별 정보
 
 //고객 등록(지역과 고객명, 계좌번호를 입력)
+
+/*
 app.post('/customerAdd', function(req, res) {
     var regionCode = req.body.regionCode;
     var customerCode = req.body.customerCode;
@@ -304,7 +306,7 @@ app.post('/payment', (res, req) => {
     });
 
 });
-
+*/
 //--------------------------------------------------------------------------------------
 
 const PORT = process.env.PORT || 5000;
