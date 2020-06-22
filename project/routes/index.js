@@ -41,15 +41,17 @@ router.get('/info', (req, res) => {
 });
 
 router.post('/storeCodeSet', (req, res) => {
-    let {storeCode} = req.body;
+    let {storeCode, regionCode} = req.body;
     this_storeCode = storeCode;
-    console.log(this_storeCode)
+    this_regionCode = regionCode;
+    console.log(this_storeCode);
+    console.log(this_regionCode);
     res.send(true);
 });
 
 router.get('/payment', (req, res) => {
     console.log(this_storeCode+" "+code)
-    res.render('../views/payment.ejs', {storeCode : this_storeCode , code : code});
+    res.render('../views/payment.ejs', {regionCode : this_regionCode ,storeCode : this_storeCode , code : code});
     code =0;
 });
 
