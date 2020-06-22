@@ -7,7 +7,7 @@ const ejs = require('ejs');
 const logger = require('morgan');
 const mysql = require('mysql');
 // Passport Config
-app.use(logger('dev'));
+// app.use(logger('dev'));
 // Connect to MongoDB
 // mongoose.Promise = global.Promise;
 
